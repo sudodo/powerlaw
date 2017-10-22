@@ -28,6 +28,25 @@ __version__ = "1.4.3"
 
 
 def plot_basics2(data, units, min_data_one=True):
+    import pylab
+    import matplotlib.pyplot as plt
+    pylab.rcParams['xtick.major.pad']='8'
+    pylab.rcParams['ytick.major.pad']='8'
+    #pylab.rcParams['font.sans-serif']='Arial'
+
+    from matplotlib import rc
+    rc('font', family='sans-serif')
+    rc('font', size=10.0)
+    rc('text', usetex=False)
+
+
+    from matplotlib.font_manager import FontProperties
+
+    panel_label_font = FontProperties().copy()
+    panel_label_font.set_weight("bold")
+    panel_label_font.set_size(12.0)
+    panel_label_font.set_family("sans-serif")
+    
     n_data = 1
     n_graphs = 4
     fig = plt.figure(figsize=(5,12))
