@@ -27,10 +27,10 @@ import sys
 __version__ = "1.4.3"
 
 
-def plot_basics2(data, fig, units, min_data_one=True):
+def plot_basics2(data, units, min_data_one=True):
     n_data = 1
     n_graphs = 4
-    f = plt.figure(figsize=(5,12))
+    fig = plt.figure(figsize=(5,12))
 
     
     if min_data_one:
