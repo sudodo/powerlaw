@@ -27,7 +27,7 @@ import sys
 __version__ = "1.4.3"
 
 
-def plot_basics2(data, units, min_data_one=True):
+def plot_basics2(data, units, fig=None, min_data_one=True, save_path=None):
     import pylab
     import matplotlib.pyplot as plt
     pylab.rcParams['xtick.major.pad']='8'
@@ -49,7 +49,8 @@ def plot_basics2(data, units, min_data_one=True):
     
     n_data = 1
     n_graphs = 4
-    fig = plt.figure(figsize=(5,12))
+    if fig is None:
+        fig = plt.figure(figsize=(5,12))
 
     
     if min_data_one:
@@ -91,7 +92,7 @@ def plot_basics2(data, units, min_data_one=True):
     from pylab import setp
     setp( ax2.get_xticklabels(), visible=False)
 
-    ax2.annotate(u"\n\n\n\nB. Fitting to power law\n-o-:ignore optimal x min\n-x-:fitting raw data", annotate_coord, xycoords="axes fraction", fontproperties=panel_label_font)        
+    ax2.annotate(u"\n\n\n\nB. Fitting to power law\n-o- use optimal x min\n-x- fitting raw data", annotate_coord, xycoords="axes fraction", fontproperties=panel_label_font)        
     ax2.set_ylabel(u"p(X)")# (10^n)")
         
     ax3 = fig.add_subplot(n_graphs,n_data,n_data*2+1)#, sharex=ax1)#, sharey=ax2)
@@ -103,9 +104,14 @@ def plot_basics2(data, units, min_data_one=True):
     ax3.set_ylim(ax2.get_ylim())
     ax3.set_xlim(ax1.get_xlim())
     
-    ax3.annotate("C. Compare power law fitting vs exponential fitting\nred:exponential fitting", annotate_coord, xycoords="axes fraction", fontproperties=panel_label_font)
+    ax3.annotate("C. Compare power law fitting vs exponential fitting\ngreen:power law fitting\nred:exponential fitting", annotate_coord, xycoords="axes fraction", fontproperties=panel_label_font)
 
     ax3.set_xlabel(units)
+    
+    if save_path is not None:
+        fig.savefig(save_path)
+        
+
 
 class Fit(object):
     """
