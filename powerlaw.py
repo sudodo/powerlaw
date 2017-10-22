@@ -91,7 +91,7 @@ def plot_basics2(data, units, min_data_one=True):
     from pylab import setp
     setp( ax2.get_xticklabels(), visible=False)
 
-    ax2.annotate(u"\n\n\n\nB. Fitting to power law\n-●-:ignore optimal x min\n-x-:fitting raw data", annotate_coord, xycoords="axes fraction", fontproperties=panel_label_font)        
+    ax2.annotate(u"\n\n\n\nB. Fitting to power law\n-o-:ignore optimal x min\n-x-:fitting raw data", annotate_coord, xycoords="axes fraction", fontproperties=panel_label_font)        
     ax2.set_ylabel(u"p(X)")# (10^n)")
         
     ax3 = fig.add_subplot(n_graphs,n_data,n_data*2+1)#, sharex=ax1)#, sharey=ax2)
