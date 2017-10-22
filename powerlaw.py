@@ -28,6 +28,11 @@ __version__ = "1.4.3"
 
 
 def plot_basics2(data, fig, units, min_data_one=True):
+    n_data = 1
+    n_graphs = 4
+    f = plt.figure(figsize=(5,12))
+
+    
     if min_data_one:
         data /= min(data)
     from powerlaw import plot_pdf, Fit, pdf
