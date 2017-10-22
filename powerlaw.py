@@ -26,6 +26,63 @@ import sys
 
 __version__ = "1.4.3"
 
+
+def plot_basics2(data, fig, units, min_data_one=True):
+    if min_data_one:
+        data /= min(data)
+    from powerlaw import plot_pdf, Fit, pdf
+    annotate_coord = (-.4, .95)
+    ax1 = fig.add_subplot(n_graphs,n_data,1)
+    x, y = pdf(data, linear_bins=True)
+    ind = y>0
+    y = y[ind]
+    x = x[:-1]
+    x = x[ind]
+    ax1.scatter(x, y, color='r', s=.5)
+    plot_pdf(data[data>0], ax=ax1, color='b', linewidth=1)
+    from pylab import setp
+    setp( ax1.get_xticklabels(), visible=False)
+
+    ax1.annotate("A. PDF\nblue: log bin\nred:linear bin", annotate_coord, xycoords="axes fraction", fontproperties=panel_label_font)
+
+    
+    from mpl_toolkits.axes_grid.inset_locator import inset_axes
+    ax1in = inset_axes(ax1, width = "30%", height = "30%", loc=3)
+    ax1in.hist(data, normed=True, color='b')
+    ax1in.set_xticks([])
+    ax1in.set_yticks([])
+
+    
+    ax2 = fig.add_subplot(n_graphs,n_data,n_data+1, sharex=ax1)
+    fit = Fit(data, xmin=1, discrete=True)
+    plot_pdf(data, ax=ax2, color='b', marker="x", linewidth=1)
+    #plot_pdf(data[data>fit.xmin], ax=ax2, color='b', marker="o", linewidth=1)
+    fit.power_law.plot_pdf(ax=ax2, linestyle=':', color='g')
+    p = fit.power_law.pdf()
+
+    ax2.set_xlim(ax1.get_xlim())
+    
+    fit = Fit(data, discrete=True)
+    fit.power_law.plot_pdf(ax=ax2, linestyle='--', color='g')
+    from pylab import setp
+    setp( ax2.get_xticklabels(), visible=False)
+
+    ax2.annotate(u"\n\n\n\nB. Fitting to power law\n-●-:ignore optimal x min\n-x-:fitting raw data", annotate_coord, xycoords="axes fraction", fontproperties=panel_label_font)        
+    ax2.set_ylabel(u"p(X)")# (10^n)")
+        
+    ax3 = fig.add_subplot(n_graphs,n_data,n_data*2+1)#, sharex=ax1)#, sharey=ax2)
+    fit.power_law.plot_pdf(ax=ax3, linestyle='--', color='g')
+    fit.exponential.plot_pdf(ax=ax3, linestyle='--', color='r')
+    fit.plot_pdf(ax=ax3, color='b', linewidth=1)
+    fit.plot_pdf(ax=ax2, color='b', marker="o", linewidth=1)
+    
+    ax3.set_ylim(ax2.get_ylim())
+    ax3.set_xlim(ax1.get_xlim())
+    
+    ax3.annotate("C. Compare power law fitting vs exponential fitting\nred:exponential fitting", annotate_coord, xycoords="axes fraction", fontproperties=panel_label_font)
+
+    ax3.set_xlabel(units)
+
 class Fit(object):
     """
     A fit of a data set to various probability distributions, namely power
